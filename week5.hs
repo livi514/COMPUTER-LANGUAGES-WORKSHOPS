@@ -1,4 +1,3 @@
-import qualified Control.Applicative as problem
 -- Teaser:
 --Each year when I get my new diary, I like to look at the dates to see if they have
 --any interesting properties. When I looked at this year’s diary, I was pleased to find
