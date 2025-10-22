@@ -39,26 +39,54 @@ digits n
         (d,m) = n `divMod` 10
 
 -- Activity 3
+-- Write an ends3 function that takes a list of integers and returns True if the list ends with three,
+-- and False otherwise, so that ends3 [7,6,5,4,3] returns True.
 ends3 :: [Int] -> Bool
+-- last is used to get the last element of a list
 ends3 xs = last xs == 3
 
 -- Activity 4
+-- Write a starts4 function that takes a list of integers and returns True if the list starts
+-- with four, and False otherwise, so that starts4 [4,5,6,7,8] returns True.
 starts4 :: [Int] -> Bool
+-- head is used to get the first element of a list
 starts4 xs = head xs == 4
 
 -- Activity 5
+-- Write a palindrome function that takes a list of integers and returns True if the list is a
+-- palindrome, and False otherwise, so that palindrome [4,5,6,7,6,5,4] returns True.
 palindrome :: [Int] -> Bool
+-- here, I simply compared a list with its inverse (xs == reverse xs)
 palindrome xs = xs == reverse xs
 
 -- Activity 6 
+-- Write a splits function that takes a list and returns a list of all splits of that list as pairs,
+-- so that splits [1,2,3] ⇝ [([],[1,2,3]),([1],[2,3]),([1,2],[3]),([1,2,3],[])]
 splits :: [Int] -> [([Int],[Int])]
+-- iterating through different positions to split the list at, starting from 0 
+-- and going to the length of xs
 splits xs = [splitAt n xs | n <- [0..length xs]]
 
 -- Activity 7
+-- The first part of a program for this Teaser could be a generator, which is used to construct
+-- a list of items that might provide solutions to the problem. That is, pairs of lists of integers
+-- from the permuatations of [1..9] that starts
+-- [([],[1,2,3,4,5,6,7,8,9])
+-- ,([1],[2,3,4,5,6,7,8,9])
+-- ,([1,2],[3,4,5,6,7,8,9])
+-- ,([1,2,3],[4,5,6,7,8,9])
+-- ,([1,2,3,4],[5,6,7,8,9])
+-- ,([1,2,3,4,5],[6,7,8,9])
+-- ...
+--]
+
 generator :: [([Int],[Int])]
+-- permutations is a built-in function that returns all the possible permutations of the argument
 generator = concat [splits ps | ps <- permutations [1..9]]
 
 -- Activity 8
+-- The second part of a program for this exercise could be a selector, which is used to filter
+-- items that do provide solutions to the problem.
 selector :: ([Int],[Int]) -> Bool
 selector (as,bs)
     = ends3 ms && starts4 ds && palindrome ds && palindrome es
@@ -70,6 +98,10 @@ selector (as,bs)
         es = digits (a+b+100)
 
 -- Activity 9
+-- The final part of our program for this teaser is a main function that puts the generator
+-- and selector together, filtering the list from the generator with the selector.
 main :: IO ()
 main 
     = print(filter selector generator)
+-- The result of this program is ([2,3],[1,7,6,9,5,4,8]) from which the solution, 40699604
+-- given by the newspaper may be calculated directly.
